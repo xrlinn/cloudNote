@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>笔记本</title>
+    <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/reset.css">
+    <link rel="stylesheet" href="../stylesheets/index.css">
+</head>
+<body>
+    <div class="header">
+        <div class="w1170 wrap">
+            <h1>云笔记</h1>
+            <button class="head-btn">写笔记</button>
+        </div>
+    </div>
+    <div class="w1170 content">
+        <div class="left-box">
+            <img src="../images/banner.jpg" alt="">
+            <div class="desc">十三亿人都会用的云笔记</div>
+        </div>
+        <div class="right-box">
+            <div class="login-box">
+                <div class="item">
+                    <input type="text" placeholder="账号">
+                </div>
+                <div class="item">
+                    <input type="password" placeholder="密码">
+                </div>
+                <div class="item">
+                    <button class="item-btn btn1"><span>登陆</span></button>
+                </div>
+                <div class="item">
+                    <button class="item-btn btn2"><span>注册</span></button></div>
+            </div>
+        </div>
+        <div class="bottom-box">
+            <a href="" class="item">
+                <div class="item-top clear-f">
+                    <div class="item-left">
+                        <img src="../images/avatar1.jpg" alt="">
+                    </div>
+                    <div class="item-right">
+                        <div class="item-right-one">
+                            <span class="author-name">Alex</span>
+                            <h2>测试标题</h2>
+                        </div>
+                        <div class="item-right-two">
+                            <span class="row-item">浏览: 5</span>
+                            <span class="row-item">回复: 0</span>
+                            <span class="row-item">分类: </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-content">
+
+                </div>
+            </a>
+            <a href="" class="item">
+                <div class="item-top clear-f">
+                    <div class="item-left">
+                        <img src="../images/avatar1.jpg" alt="">
+                    </div>
+                    <div class="item-right">
+                        <div class="item-right-one">
+                            <span class="author-name">Alex</span>
+                            <h2>测试标题</h2>
+                        </div>
+                        <div class="item-right-two">
+                            <span class="row-item">浏览: 5</span>
+                            <span class="row-item">回复: 0</span>
+                            <span class="row-item">分类: </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-content">
+
+                </div>
+            </a>
+            <a href="" class="item">
+                <div class="item-top clear-f">
+                    <div class="item-left">
+                        <img src="../images/avatar1.jpg" alt="">
+                    </div>
+                    <div class="item-right">
+                        <div class="item-right-one">
+                            <span class="author-name">Alex</span>
+                            <h2>测试标题</h2>
+                        </div>
+                        <div class="item-right-two">
+                            <span class="row-item">浏览: 5</span>
+                            <span class="row-item">回复: 0</span>
+                            <span class="row-item">分类: </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-content">
+
+                </div>
+            </a>
+            <a href="" class="item">
+                <div class="item-top clear-f">
+                    <div class="item-left">
+                        <img src="../images/avatar1.jpg" alt="">
+                    </div>
+                    <div class="item-right">
+                        <div class="item-right-one">
+                            <span class="author-name">Alex</span>
+                            <h2>测试标题</h2>
+                        </div>
+                        <div class="item-right-two">
+                            <span class="row-item">浏览: 5</span>
+                            <span class="row-item">回复: 0</span>
+                            <span class="row-item">分类: </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-content">
+
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+<script src="/js/axios.js"></script>
+<script src="/js/common.js"></script>
+<script>
+    var rightbox = document.querySelector(".right-box")
+    var register = document.querySelector(".btn2")
+    var login = document.querySelector(".btn1")
+    register.onclick = function(){
+        window.location.href = "/register";
+    }
+    let input = document.querySelectorAll("input")
+    console.log(input)
+    login.onclick = function()  {
+        console.log(input[0].value)
+        console.log(input[1].value)
+       axios.post("/user/login",{
+           email:input[0].value,
+           pwd:input[1].value
+       }).then(res => {
+            console.log(res);
+            alert(res.data.msg)
+            handleSession()
+    })
+    }
+    function handleSession(){
+        axios.get("/user/session").then(res => {
+                console.log(res)
+                var str = "";
+                let item  = res.data
+                console.log(item)
+                let template =`
+            <div class="user-box">
+                <div class="user-box-item user-icon">
+                    <img src="http://pbl.yaojunrong.com/avatar1.jpg">
+                    萌新：${item.name}
+                </div>
+                <div class="email-item">
+                 </div>
+                <div class="name-item">
+                    email:${item.email}
+                </div>
+                <button id="btn" type="button" class="el-button el-buttons" style="width: 100%; margin-top: 10px;">  
+                <span>${"退出登陆"}</span>
+                </button>  
+            </div>`
+            str += template    
+            console.log(str)    
+            if(item != ""){
+                rightbox.innerHTML = str;
+            }
+            let exitbtn = document.querySelector(".el-buttons");
+            exitbtn.onclick = function(){
+                axios.delete("/user/logOut").then(res => {
+                    console.log(res)
+                    alert(res.data.msg)
+                })
+                window.location.href="http://localhost:3000";
+            }  
+        })
+    }
+    handleSession()   
+</script>
+<script>
+    var container = document.querySelector(".bottom-box")
+    axios.get("http://localhost:3000/article").then(res => {
+        console.log(res)
+        var str = "";
+        res.data.data.forEach((item,index) => {
+            let template =`
+            <a href="http://localhost:3000/content/${item._id}" class="item">
+                <div class="item-top clear-f">
+                    <div class="item-left">
+                        <img src="../images/avatar1.jpg" alt="">
+                    </div>
+                    <div class="item-right">
+                        <div class="item-right-one">
+                            <span class="author-name">Alex</span>
+                            <h2>${item.title}</h2>
+                        </div>
+                        <div class="item-right-two">
+                            <span class="row-item">浏览: ${item.looksnum}</span>
+                            <span class="row-item">回复: 0</span>
+                            <span class="row-item">分类: ${item.category[index].name}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-content">
+                    ${item.content}
+                </div>
+            </a>`
+            str += template;
+        })
+        console.log(str)
+        container.innerHTML = str;
+    })
+
+</script>
+</html>
