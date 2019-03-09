@@ -22,25 +22,25 @@
             </div>
             <div class="title-content">
                 <div class="title-label">内容</div>
-                <div id="editor"></div>
+                <div class="editor"></div>
                 <div class="labels clear-f">
-                    <span class="labels-title fl">标签:</span>
+                    <span class="labels-title fl">标签: </span>
                     <div class="el-checkbox-group fl">
                         <label class="check-btn clear-f">
                             <input type="checkbox">
-                            <span>VueJs</span>
+                            <span class="checkbox_inner">VueJs</span>
                         </label>
                         <label class="check-btn">
                             <input type="checkbox">
-                            <span>VueJs</span>
+                            <span class="checkbox_inner">HTML</span>
                         </label>
                         <label class="check-btn">
                             <input type="checkbox">
-                            <span>VueJs</span>
+                            <span class="checkbox_inner">CSS</span>
                         </label>
                         <label class="check-btn">
                             <input type="checkbox">
-                            <span>VueJs</span>
+                            <span class="checkbox_inner">JavaScript</span>
                         </label>
                     </div>
                 </div>
@@ -55,19 +55,37 @@
 <script src="/js/axios.js"></script>
 <script>
     var release = document.querySelector(".release")
-    var input   = document.querySelectorAll("input")
-    console.log(input)
+    var input = document.querySelector(".title-wrap input");
+    var checkbtn = document.querySelectorAll(".check-btn input")
+    var checkbox_inner = document.querySelectorAll(".checkbox_inner")
     var E = window.wangEditor
-    var editor = new E('#editor')
+    var editor = new E('.editor')
+    var categories = []
     editor.create()
-    
-    console.log(editor.txt.html())
+    for(let i = 0 ; i < checkbtn.length; i++){
+        console.log(checkbox_inner[i].innerHTML)
+        console.log("i")
+        checkbtn[i].onclick = function(){
+            if(checkbtn[i].checked){
+                categories.push(checkbox_inner[i].innerHTML)
+                console.log(categories)             
+            }else{
+                for (var j=0; j<categories.length; j++){
+                  if(categories[j]==checkbox_inner[i].innerHTML){
+                        categories.splice(j,1)
+                        console.log(categories)
+                  }
+                }
+            } 
+        }          
+    }
 
     release.onclick = function(){
-        console.log(input[0].value);
+        console.log(input.value);   
         axios.post("/article",{
-            "title":"",
-            "content":""
+            title:input.value,
+            contentText:editor.txt.html(),
+            category:categories.join("  ")
         }).then(res => {
             console.log(res)
             alert(res.data.msg)

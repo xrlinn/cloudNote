@@ -6,17 +6,12 @@ router.post("/",async(req,res,next) => {
     try{
         let {
             title,
-            content,
             contentText,
             category,
         } = req.body;
-        category = category.map(item => 
-            mongoose.Types.ObjectId(item)
-        )
         if (req.session.user){
             await articleModel.create({
                 title,
-                content,
                 contentText,
                 category,
                 author:mongoose.Types.ObjectId(req.session.user._id)
@@ -52,7 +47,6 @@ router.get("/",async(req,res,next) => {
             path:"author",
             select:"-email -pwd"
         })
-        .populate("category")
         res.json({
             code:200,
             data:articles
@@ -62,26 +56,6 @@ router.get("/",async(req,res,next) => {
     }
 })
 
-router.get("/content/:id",async(req,res,next) => {
-    try{
-        const {id} = req.params;
-        const article = await articleModel
-        .findById(id)
-        .populate({
-            path:"author",
-            select:"-pwd -email"
-        })
-        .populate("category")
-        await article.update({$inc:{
-            looksnum:1
-        }})
-        res.json({
-            code:200,
-            data:article
-        })
-    }catch(err){
-        next(err)
-    }
-} )
+
 
 module.exports = router;

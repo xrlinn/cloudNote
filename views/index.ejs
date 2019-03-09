@@ -132,7 +132,9 @@
         window.location.href = "/register";
     }
     let input = document.querySelectorAll("input")
-    console.log(input)
+        console.log(input)
+  
+
     login.onclick = function()  {
         console.log(input[0].value)
         console.log(input[1].value)
@@ -190,25 +192,25 @@
         var str = "";
         res.data.data.forEach((item,index) => {
             let template =`
-            <a href="http://localhost:3000/content/${item._id}" class="item">
+            <a href="http://localhost:3000/content?id=${item._id}" class="item">
                 <div class="item-top clear-f">
                     <div class="item-left">
-                        <img src="../images/avatar1.jpg" alt="">
+                        <img src="http://pbl.yaojunrong.com/avatar1.jpg" alt="">
                     </div>
                     <div class="item-right">
                         <div class="item-right-one">
-                            <span class="author-name">Alex</span>
+                            <span class="author-name">${item.author.name}</span>
                             <h2>${item.title}</h2>
                         </div>
                         <div class="item-right-two">
                             <span class="row-item">浏览: ${item.looksnum}</span>
                             <span class="row-item">回复: 0</span>
-                            <span class="row-item">分类: ${item.category[index].name}</span>
+                            <span class="row-item">分类: ${item.category}</span>
                         </div>
                     </div>
                 </div>
                 <div class="item-content">
-                    ${item.content}
+                    ${item.contentText}
                 </div>
             </a>`
             str += template;
@@ -216,6 +218,13 @@
         console.log(str)
         container.innerHTML = str;
     })
-
-</script>
+    
+    if(window.name != "bencalie"){
+    location.reload();
+    window.name = "bencalie";
+}
+else{
+    window.name = "";
+}
+    </script>
 </html>

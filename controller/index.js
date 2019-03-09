@@ -1,10 +1,11 @@
 const Router = require("express");
 const router = Router();
+const articleModel = require("../models/article");
+const mongoose = require("mongoose")
 
 const userRouters = require("./user")
 const articleRouters = require("./article")
-const categoryRouters = require("./category")
-const path = require("path")
+
 
 router.get("/",(req,res) => {
     // res.sendFile(path.join(__dirname,"../public/page/index.html"));
@@ -23,8 +24,28 @@ router.get("/content",(req,res) => {
     res.render("content")
 })
 
+router.get("/contents",async(req,res,next) => {
+    try{
+        const id = req.query.id;
+        const article = await articleModel
+        .findById(id)
+        .populate({
+            path:"author",
+            select:"-pwd -email"
+        })
+        await article.update({$inc:{
+            looksnum:1
+        }})
+        res.json({
+            code:200,
+            data:article
+        })
+    }catch(err){
+        next(err)
+    }
+})
+
 
 router.use("/user",userRouters);
 router.use("/article",articleRouters);
-router.use("/category",categoryRouters)
 module.exports = router;

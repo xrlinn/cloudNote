@@ -1,17 +1,12 @@
 const mongoose = require("mongoose")
 const articleSchem= new mongoose.Schema({
     title: String,
-    content:String,
     contentText:String,
     author:{
       ref:"user",
       type:mongoose.Schema.Types.ObjectId
     },
-    category:[{
-      type: mongoose.Schema.Types.ObjectId,
-      ref:"category",
-      required:true
-    }],
+    category:String,
     looksnum: {
       type:Number,
       default:0

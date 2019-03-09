@@ -30,6 +30,7 @@
     margin-top: 10px;
 }
 .labels-title{
+    padding-right: 10px;
     font-size: 14px;
     font-weight: 700;
     color: #409eff;
@@ -49,6 +50,8 @@
     z-index: -1;
 }
 .check-btn>span{
+    position: relative;
+    display: inline-block;
     border: 1px solid #dcdfe6;
     border-radius: 4px;
     box-shadow: none!important;
@@ -87,4 +90,10 @@
     padding: 12px 20px;
     font-size: 14px;
     border-radius: 4px;
+}
+.check-btn>span:hover{
+    color: #409eff
+}
+input[type=checkbox]:checked ~ span{
+    background-color: #409eff;
 }
