@@ -136,12 +136,14 @@
   
 
     login.onclick = function()  {
+
         console.log(input[0].value)
         console.log(input[1].value)
-       axios.post("/user/login",{
-           email:input[0].value,
-           pwd:input[1].value
-       }).then(res => {
+
+        axios.post("/user/login",{
+            email:input[0].value,
+            pwd:input[1].value
+        }).then(res => {
             console.log(res);
             alert(res.data.msg)
             handleSession()
@@ -220,11 +222,11 @@
     })
     
     if(window.name != "bencalie"){
-    location.reload();
-    window.name = "bencalie";
-}
-else{
-    window.name = "";
-}
+        location.reload();
+        window.name = "bencalie";
+    }
+    else{
+        window.name = "";
+    }
     </script>
 </html>
