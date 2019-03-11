@@ -95,5 +95,6 @@
     color: #409eff
 }
 input[type=checkbox]:checked ~ span{
+    color: #fff;
     background-color: #409eff;
 }
