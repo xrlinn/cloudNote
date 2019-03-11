@@ -1,6 +1,7 @@
 const Router = require("express");
 const router = Router();
 const userModel = require("../models/user");
+const isEmail = require("validator/lib/isEmail")
 
 router.post("/register", (req, res) => {
     const {name, pwd, email} = req.body;
@@ -16,21 +17,28 @@ router.post("/register", (req, res) => {
                 // data: null
             })
         } else {
-            userModel.create({
-                name,
-                pwd,
-                email
-            }).then(result => {
-                res.json({
-                    code: 200,
-                    msg: "注册成功"
+            if(isEmail(email)){
+                userModel.create({
+                    name,
+                    pwd,
+                    email
+                }).then(result => {
+                    res.json({
+                        code: 200,
+                        msg: "注册成功"
+                    })
+                }).catch(err => {
+                    res.json({
+                        code: 500,
+                        msg: err
+                    })
                 })
-            }).catch(err => {
+            }else {
                 res.json({
-                    code: 500,
-                    msg: err
+                    code:401,
+                    msg:"该邮箱格式不正确"
                 })
-            })
+            }
         }
     })
 });
