@@ -38,19 +38,31 @@
     let btn = document.querySelector(".btn1");
     let input = document.querySelectorAll("input");
     console.log(input);
-    btn.onclick = () => {
-        console.log(input[0].value);
-        console.log(input[1].value);
-        console.log(input[2].value);
-        axios.post("/user/register",{
-            name: input[0].value,
-            email: input[1].value,
-            pwd: input[2].value
-        }).then(res => {
-            console.log(res)
-            alert(res.data.msg)
-        })
-        window.location.href = "http://localhost:3000";
+    btn.onclick = (e) => {
+        if(!input[0].value){
+            e.preventDefault();
+            alert("请输入用户名")
+        }else if(!input[1].value){
+            e.preventDefault();
+            alert("请填入邮箱") 
+        }else if(!input[2].value){
+            e.preventDefault();
+            alert("请输入密码")
+        }else{
+            console.log(input[0].value);
+            console.log(input[1].value);
+            console.log(input[2].value);
+            axios.post("/user/register",{
+                name: input[0].value,
+                email: input[1].value,
+                pwd: input[2].value
+            }).then(res => {
+                console.log(res)
+                alert(res.data.msg)
+                window.location.href = "http://localhost:3000";
+            })
+
+        }       
     }
 </script>
 </html>

@@ -135,19 +135,26 @@
         console.log(input)
   
 
-    login.onclick = function()  {
+    login.onclick = function(e)  {
+        if(!input[0].value){
+            e.preventDefault();
+            alert("请输入您的账号")
+        }else if(!input[1].value){
+            e.preventDefault();
+            alert("请输入您的密码")
+        }else{
+            console.log(input[0].value)
+            console.log(input[1].value)
 
-        console.log(input[0].value)
-        console.log(input[1].value)
-
-        axios.post("/user/login",{
-            email:input[0].value,
-            pwd:input[1].value
-        }).then(res => {
-            console.log(res);
-            alert(res.data.msg)
-            handleSession()
-    })
+            axios.post("/user/login",{
+                email:input[0].value,
+                pwd:input[1].value
+            }).then(res => {
+                console.log(res);
+                alert(res.data.msg)
+                handleSession()
+        })
+        }
     }
     function handleSession(){
         axios.get("/user/session").then(res => {
